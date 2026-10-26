@@ -34,6 +34,12 @@ test('isPatternFile matches only php files directly inside patterns/', () => {
 	assert.strictEqual(isPatternFile('/a/functions.php'), false);
 });
 
+test('isPatternFile ignores case in the folder name and extension', () => {
+	assert.strictEqual(isPatternFile('/a/theme/patterns/hero.PHP'), true);
+	assert.strictEqual(isPatternFile('C:\\a\\theme\\Patterns\\hero.php'), true);
+	assert.strictEqual(isPatternFile('/a/theme/Patterns/archive/hero.php'), false);
+});
+
 test('a bare comment after Write blocks with exit 2 and names the line', () => {
 	const result = run(write(copy('bad-bare-comment.php')));
 	assert.strictEqual(result.status, 2);

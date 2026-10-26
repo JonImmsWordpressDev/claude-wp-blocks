@@ -120,4 +120,4 @@ The "Classic block" (`core/freeform`) prompt is the parser's fallback for conten
 
 ## The plugin checks your work
 
-After every write to `patterns/*.php`, this plugin's hook checks the file for bare comments between blocks (`bare-comment`), blocks that don't open and close in order (`unbalanced`), and patterns that are mostly `wp:html` (`mostly-html`, a warning). Fix what it reports before moving on.
+After every write to `patterns/*.php`, this plugin's hook checks the file for bare comments between blocks (`bare-comment`; a warning when the comment is inside a block's markup), delimiters missing their spaces (`delimiter-spacing`), blocks that don't open and close in order (`unbalanced`), and patterns that are mostly `wp:html` (`mostly-html`, a warning). Fix what it reports before moving on.

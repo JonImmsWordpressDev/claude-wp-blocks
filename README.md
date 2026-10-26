@@ -25,7 +25,8 @@ Claude loads these when it works on patterns, templates or template parts. Full 
 
 After Claude writes or edits a `.php` file directly inside a `patterns/` folder, the plugin checks it:
 
-- **bare-comment** (error) — an HTML comment between blocks.
+- **bare-comment** (error) — an HTML comment between blocks. A comment inside a block's own markup is a warning.
+- **delimiter-spacing** (error) — a delimiter written without spaces, like `<!--wp:paragraph-->`. Gutenberg reads it as a plain comment.
 - **unbalanced** (error) — a block that isn't closed, or a closer for the wrong block.
 - **mostly-html** (warning) — most of the pattern is `wp:html`.
 

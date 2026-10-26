@@ -11,7 +11,7 @@ const { checkPattern } = require('../lib/check');
 // WordPress only loads patterns/*.php, so nested folders don't count.
 function isPatternFile(filePath) {
 	const parts = String(filePath).split(/[\\/]/);
-	return parts.length >= 2 && parts[parts.length - 1].endsWith('.php') && parts[parts.length - 2] === 'patterns';
+	return parts.length >= 2 && parts[parts.length - 1].toLowerCase().endsWith('.php') && parts[parts.length - 2].toLowerCase() === 'patterns';
 }
 
 // Keep home-directory paths out of what Claude echoes back.

@@ -17,8 +17,8 @@ $wpb_slug    = isset( $args[0] ) ? (string) $args[0] : '';
 $wpb_id      = isset( $args[1] ) ? (string) $args[1] : '';
 $wpb_confirm = isset( $args[2] ) && 'confirm' === $args[2];
 
-if ( ! preg_match( '/^[a-z0-9-]+$/', $wpb_slug ) ) {
-	WP_CLI::error( 'Pattern slug must be lowercase letters, numbers and hyphens, like "hero".' );
+if ( ! preg_match( '/^[a-z0-9_-]+$/', $wpb_slug ) ) {
+	WP_CLI::error( 'Pattern slug must be lowercase letters, numbers, hyphens and underscores, like "hero".' );
 }
 
 if ( ! preg_match( '/^[1-9][0-9]*$/', $wpb_id ) ) {

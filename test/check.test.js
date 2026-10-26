@@ -96,3 +96,33 @@ test('balance stays an error when PHP holds no delimiters', () => {
 	const src = "<?php echo esc_html( 'x' ); ?>\n<!-- wp:group -->\n<div></div>\n";
 	assert.deepStrictEqual(rules(checkPattern(src).errors), ['unbalanced']);
 });
+
+test('a delimiter with no spaces is an error', () => {
+	const src = '<!--wp:paragraph--><p>x</p><!--/wp:paragraph-->\n';
+	const { errors } = checkPattern(src);
+	assert.strictEqual(errors.length, 2);
+	assert.ok(errors.every((e) => e.rule === 'delimiter-spacing' && e.line === 1));
+	assert.match(errors[0].message, /<!-- wp:paragraph -->/);
+});
+
+test('a self-closing delimiter needs a space before /-->', () => {
+	assert.deepStrictEqual(rules(checkPattern('<!-- wp:spacer {"height":"2rem"}/-->\n').errors), ['delimiter-spacing']);
+	assert.deepStrictEqual(checkPattern('<!-- wp:spacer {"height":"2rem"} /-->\n'), { errors: [], warnings: [] });
+});
+
+test('a comment inside a block is a warning that names the block', () => {
+	const src = '<!-- wp:group -->\n<div class="wp-block-group"><!-- note --></div>\n<!-- /wp:group -->\n';
+	const { errors, warnings } = checkPattern(src);
+	assert.deepStrictEqual(errors, []);
+	assert.deepStrictEqual(rules(warnings), ['bare-comment']);
+	assert.strictEqual(warnings[0].line, 2);
+	assert.match(warnings[0].message, /inside wp:group/);
+	assert.doesNotMatch(warnings[0].message, /between blocks/);
+});
+
+test('uppercase and short PHP open tags are blanked', () => {
+	for (const tag of ['<?PHP', '<?Php', '<?']) {
+		const src = `${tag} echo '<!-- note -->'; ?>\n<!-- wp:paragraph --><p>x</p><!-- /wp:paragraph -->\n`;
+		assert.deepStrictEqual(checkPattern(src), { errors: [], warnings: [] }, tag);
+	}
+});
