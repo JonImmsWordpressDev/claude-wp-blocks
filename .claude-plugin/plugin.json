@@ -1,0 +1,11 @@
+{
+  "name": "wp-blocks",
+  "displayName": "WP Blocks",
+  "version": "0.1.0",
+  "description": "Block-pattern rules for Claude Code, a check that catches broken pattern markup as Claude writes it, and a command to refresh a page from its pattern.",
+  "author": { "name": "Jon Imms", "url": "https://github.com/JonImmsWordpressDev" },
+  "homepage": "https://github.com/JonImmsWordpressDev/claude-wp-blocks",
+  "repository": "https://github.com/JonImmsWordpressDev/claude-wp-blocks",
+  "license": "MIT",
+  "keywords": ["wordpress", "gutenberg", "block-patterns", "block-theme"]
+}
