@@ -109,10 +109,10 @@ Turning a `<div>` or `<span>` into a `wp:paragraph` makes it a `<p>`. theme.json
 Inserting a pattern copies its evaluated HTML into the page's `post_content`. Editing the pattern's PHP file afterwards does NOT update pages that already use it. To update an existing page, either re-insert the pattern from the inserter or rebuild the page from the file:
 
 ```bash
-wp eval 'ob_start(); include get_theme_file_path("/patterns/NAME.php"); $c = ob_get_clean(); wp_update_post(["ID" => POST_ID, "post_content" => $c]);'
+wp eval 'ob_start(); include get_theme_file_path("/patterns/NAME.php"); $c = ob_get_clean(); kses_remove_filters(); wp_update_post(wp_slash(["ID" => POST_ID, "post_content" => $c]));'
 ```
 
-WordPress saves a revision first, so it can be undone. `/wp-blocks:refresh-page <pattern-slug> <post-id>` does this for you and asks you to confirm the post before changing it. Target posts by ID, never by title.
+Keep `wp_slash()` and `kses_remove_filters()`. Without them WordPress strips the backslashes from block attributes and filters out SVG and iframes. WordPress saves a revision first, so it can be undone. `/wp-blocks:refresh-page <pattern-slug> <post-id>` does this for you and asks you to confirm the post before changing it. Target posts by ID, never by title.
 
 ## The Classic block isn't the Classic Editor
 

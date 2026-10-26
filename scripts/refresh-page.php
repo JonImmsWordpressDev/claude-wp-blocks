@@ -46,10 +46,17 @@ ob_start();
 include $wpb_file;
 $wpb_content = ob_get_clean();
 
+// WP-CLI runs as no user, so kses would strip SVG, iframes and other wp:html content.
+// Whoever runs this already has shell access to the site.
+kses_remove_filters();
+
+// wp_update_post() unslashes its input, which would eat the backslashes in block attributes (", -).
 $wpb_result = wp_update_post(
-	array(
-		'ID'           => $wpb_id,
-		'post_content' => $wpb_content,
+	wp_slash(
+		array(
+			'ID'           => $wpb_id,
+			'post_content' => $wpb_content,
+		)
 	),
 	true
 );
