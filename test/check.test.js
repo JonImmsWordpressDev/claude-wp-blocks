@@ -71,3 +71,28 @@ test('namespaced block names balance', () => {
 	const src = '<!-- wp:acme/card {"tone":"dark"} -->\n<div>x</div>\n<!-- /wp:acme/card -->\n';
 	assert.deepStrictEqual(checkPattern(src), { errors: [], warnings: [] });
 });
+
+test('core more and nextpage markers are not bare comments', () => {
+	const src = [
+		'<!-- wp:more {"noTeaser":true} -->',
+		'<!--more-->',
+		'<!--noteaser-->',
+		'<!-- /wp:more -->',
+		'<!-- wp:nextpage -->',
+		'<!--nextpage-->',
+		'<!-- /wp:nextpage -->',
+	].join('\n');
+	assert.deepStrictEqual(checkPattern(src), { errors: [], warnings: [] });
+});
+
+test('a delimiter echoed from PHP makes balance a warning, not an error', () => {
+	const src = "<?php echo '<!-- wp:paragraph -->'; ?>\n<p>x</p>\n<!-- /wp:paragraph -->\n";
+	const { errors, warnings } = checkPattern(src);
+	assert.deepStrictEqual(errors, []);
+	assert.deepStrictEqual(rules(warnings), ['unbalanced']);
+});
+
+test('balance stays an error when PHP holds no delimiters', () => {
+	const src = "<?php echo esc_html( 'x' ); ?>\n<!-- wp:group -->\n<div></div>\n";
+	assert.deepStrictEqual(rules(checkPattern(src).errors), ['unbalanced']);
+});
