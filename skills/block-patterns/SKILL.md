@@ -5,7 +5,7 @@ description: Rules for writing WordPress block markup that stays editable. Use w
 
 # Block patterns that stay editable
 
-Left alone, block markup goes wrong in a few predictable ways. Patterns turn into `wp:html` boxes nobody can edit. Stray comments add gaps or trigger the "Convert to blocks" prompt. Edited pattern files don't change the pages already using them.
+Left alone, block markup goes wrong in a few predictable ways. Patterns turn into `wp:html` boxes nobody can edit. Stray comments become Classic blocks in the editor, then empty paragraphs in the page. Edited pattern files don't change the pages already using them.
 
 Follow these five rules on every pattern, template and template part.
 
@@ -68,7 +68,7 @@ After:
 
 ## 3. NEVER put bare HTML comments between blocks
 
-Gutenberg's parser doesn't skip a plain `<!-- ... -->` between blocks. It either wraps it in an empty `wp:paragraph`, which leaves a visible gap on the frontend under the layout's block gap, or falls back to a Classic block with a "Convert to blocks" prompt. Use a PHP comment for section dividers. It never reaches the page.
+Gutenberg's parser doesn't skip a plain `<!-- ... -->` between blocks. The page renders fine until someone opens it in the editor. The editor turns the comment into a Classic block (`core/freeform`). The first save then writes it back as `<p><!-- Hero --></p>` — a stray empty paragraph in the page content. Use a PHP comment for section dividers. It never reaches the page.
 
 Before:
 

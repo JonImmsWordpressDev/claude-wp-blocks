@@ -1,6 +1,6 @@
 # WP Blocks for Claude Code
 
-Claude Code writes WordPress block patterns that break in the editor: `wp:html` boxes nobody can edit, stray comments that turn into empty paragraphs, edits that never reach the pages using them. This plugin gives Claude the rules, checks every pattern file it writes, and adds a command to refresh a page from its pattern.
+Claude Code writes WordPress block patterns that break in the editor: `wp:html` boxes nobody can edit, stray comments that become Classic blocks and then empty paragraphs, edits that never reach the pages using them. This plugin gives Claude the rules, checks every pattern file it writes, and adds a command to refresh a page from its pattern.
 
 ## Install
 
